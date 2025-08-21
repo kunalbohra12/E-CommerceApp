@@ -1,13 +1,14 @@
 import { View, SafeAreaView, TouchableOpacity, Text, Image, StatusBar } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import GlobalStyles from '../../utils/styles/GlobalStyles'
 import styles from './HomeScreenStyle'
 import images from '../../utils/constants/Images'
 import DiscoverItemComponent from '../../Components/DiscoverItem/DiscoverItemComponent'
 import ProductComponent from '../../Components/Product/ProductComponent'
 import colors from '../../utils/constants/colors'
-
 const HomeScreen = ({ navigation }: any) => {
+    const [selectedCategory, setSelectedCategory] = useState('All');
+
     return (
         <SafeAreaView style={GlobalStyles.container}>
             <StatusBar barStyle="dark-content" backgroundColor={colors.DEFAULT_WHITE} />
@@ -18,7 +19,6 @@ const HomeScreen = ({ navigation }: any) => {
                         <Image source={images.NOTIFICATION_ICON} style={styles.iconSize} />
                     </TouchableOpacity>
                 </View>
-
                 <View style={styles.subHeader}>
                     <View style={styles.searchBar}>
                         <Image source={images.SEARCH_ICON} style={styles.iconSize} />
@@ -29,16 +29,11 @@ const HomeScreen = ({ navigation }: any) => {
                         <Image source={images.FILTER_ICON} style={styles.iconSize} />
                     </TouchableOpacity>
                 </View>
-                {/* <ScrollView> */}
-
-                    <View style={styles.listContainer}>
-                        <DiscoverItemComponent />
-                    </View>
-                    <ProductComponent />
-                {/* </ScrollView> */}
-
+                <View style={styles.listContainer}>
+                    <DiscoverItemComponent selectedCategory={selectedCategory} onCategorySelect={setSelectedCategory}/>
+                </View>
+                <ProductComponent selectedCategory={selectedCategory} navigation={() => navigation.navigate('ProductDetails',{selectedCategory:selectedCategory})}/>
             </View>
-
         </SafeAreaView>
     )
 }

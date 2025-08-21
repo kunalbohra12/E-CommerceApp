@@ -37,6 +37,10 @@ const images = {
     FB_ICON:require('../../assets/images/fb_icon.png'),
     TWITTER_ICON:require('../../assets/images/twitter_icon.png'),
     WARNING_ICON:require('../../assets/images/warning_icon.png'),
+    SAVED_ICON:require('../../assets/images/saved_icon.png'),
+    UNSAVED_ICON:require('../../assets/images/unsaved_icon.png'),
+    RATING_ICON:require('../../assets/images/rating_icon.png'),
+    BOX_ICON:require('../../assets/images/box_icon.png'),
 
 };
 export default images;

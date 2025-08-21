@@ -15,14 +15,9 @@ import GlobalStyles from '../../utils/styles/GlobalStyles';
 import colors from '../../utils/constants/colors';
 import images from '../../utils/constants/Images';
 import styles from './LoginScreenStyle';
-import auth from '@react-native-firebase/auth'
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { LoginRequest } from '../../HelperFiles/API/ApiService';
 
-GoogleSignin.configure({
-  webClientId: '18988325049-um7bmvogsf34tuf680b604p80r9cjcng.apps.googleusercontent.com',
-    offlineAccess: true,
-});
 
 
 const LoginScreen = ({ navigation }: any) => {
@@ -34,6 +29,13 @@ const LoginScreen = ({ navigation }: any) => {
   const [passwdValid, setPasswdValid] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [isLoading, setLoading] = useState(false);
+
+  function configureGoogleSignIn() {
+  GoogleSignin.configure({
+    webClientId: '870563584052-afe8bi2huqmih5ipgu0vr2pmst3q4m8n.apps.googleusercontent.com',
+    offlineAccess: true,
+  });
+}
 
   const validateField = (fieldName: any, value: string) => {
     switch (fieldName) {
@@ -75,30 +77,34 @@ const LoginScreen = ({ navigation }: any) => {
   };
 
   const handleLogin = async () => {
-        setLoading(true);
-        try {
-            const response = await LoginRequest({
-                email: email, password: password,
-            });
-            if (response.data != null) {
-                console.log('email is', email);
-                console.log('password is', password);
-                if (response.success) {
-                    setLoading(false);
-                    navigation.navigate('BottomTabBarScreen');
-                    console.log('Login Success:', response);
-                    // await AsyncStorage.setItem('userToken', response.data?.token);
-                } else {
-                    console.log('Login Data MisMatched:', response);
-                }
-            } else {
-                console.log('Login Failed', response.message);
-                Alert.alert('Login Failed', response.message);
-            }
-        } catch (error) {
-            console.error('Login Failed:', error);
+    setLoading(true);
+    try {
+      const response = await LoginRequest({
+        email: email, password: password,
+      });
+      if (response.data != null) {
+        console.log('email is', email);
+        console.log('password is', password);
+        if (response.success) {
+          setLoading(false);
+          navigation.navigate('BottomTabBarScreen');
+          console.log('Login Success:', response);
+          // await AsyncStorage.setItem('userToken', response.data?.token);
+        } else {
+          console.log('Login Data MisMatched:', response);
         }
-    };
+      } else {
+        console.log('Login Failed', response.message);
+        Alert.alert('Login Failed', response.message);
+      }
+    } catch (error) {
+      console.error('Login Failed:', error);
+    }
+  };
+
+
+
+
 
   // const handleLogin = async () => {
   //   validateField('email', email);
@@ -122,23 +128,40 @@ const LoginScreen = ({ navigation }: any) => {
   //   }
   // };
 
- 
 
 
 
-  const handleGoogleSignIn = async () => {
+
+ const signIn = async () => {
     try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
-      await auth().signInWithCredential(googleCredential);
-      navigation.navigate('TabNavigator')
-      Alert.alert('Success', 'Signed in with Google!');
-    } catch (error) {
-      console.error(error);
-      Alert.alert('Error', 'Google Sign-In failed.');
-    }
+      console.log('Checking Play Services...');
+      // Check if Play Services are available
+      // \
+      configureGoogleSignIn();
+      console.log('Starting Google Sign In...');
+      const user = await GoogleSignin.signIn();
+      setUserInfo(user);
+      console.log('Google Sign In Success:', user);
+      // Navigate to main screen on successful login
+      navigation.navigate('BottomTabBarScreen');
+      
+    }catch (error: any) {
+  console.log('Google Sign In Error - Full error:', JSON.stringify(error, null, 2));
+
+  if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+    Alert.alert('Sign In Cancelled', 'You cancelled the Google sign in process.');
+  } else if (error.code === statusCodes.IN_PROGRESS) {
+    Alert.alert('Sign In In Progress', 'Sign in is already in progress.');
+  } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+    Alert.alert('Play Services Error', 'Google Play Services not available or outdated.');
+  } else {
+    console.error('Other Google Sign In error:', error);
+console.log('Google Sign In Error - Full error:\n', JSON.stringify(error, null, 2));
+  }
+}
+
   };
+
 
   return (
     <SafeAreaView style={GlobalStyles.container}>
@@ -223,7 +246,7 @@ const LoginScreen = ({ navigation }: any) => {
           </TouchableOpacity>
 
           <Image source={images.OR_BG} style={styles.bgImage} />
-          <TouchableOpacity style={styles.socialLoginBtn} onPress={handleGoogleSignIn}>
+          <TouchableOpacity style={styles.socialLoginBtn} onPress={signIn}>
             <Image source={images.GOOGLE_ICON} style={styles.iconSize} />
             <Text style={styles.mediumTxt}>Login with Google</Text>
           </TouchableOpacity>

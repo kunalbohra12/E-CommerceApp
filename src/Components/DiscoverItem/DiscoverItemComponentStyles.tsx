@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     item: {
+        flexDirection:'row',
         backgroundColor: colors.BLUR_WHITE,
         paddingHorizontal: 24,
         height: 40,

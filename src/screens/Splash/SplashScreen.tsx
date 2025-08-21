@@ -5,7 +5,7 @@ import images from '../../utils/constants/Images';
 const Splashscreen = ({navigation}:any) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace('Login');
+      navigation.replace('TabNavigator');
     }, 2000);
   }, [navigation]);
   return (

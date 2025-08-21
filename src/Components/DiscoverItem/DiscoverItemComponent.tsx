@@ -1,49 +1,62 @@
-import { Text, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useState } from 'react'
-import styles from './DiscoverItemComponentStyles';
-import colors from '../../utils/constants/colors';
+import { FlatList, Text, TouchableOpacity } from "react-native";
+import styles from "./DiscoverItemComponentStyles";
+import colors from "../../utils/constants/colors";
+import { useEffect, useState } from "react";
+import firestore from '@react-native-firebase/firestore'
 
-const DiscoverItemComponent = () => {
-    const [selectedId, setSelectedId] = useState('1');
-    const data = [
-        { id: '1', itemTitle: 'All' },
-        { id: '2', itemTitle: 'T-Shirts' },
-        { id: '3', itemTitle: 'Jeans' },
-        { id: '4', itemTitle: 'Blazer' },
-        { id: '5', itemTitle: 'Shoes' },
-        { id: '6', itemTitle: 'Shoes' },
-        { id: '7', itemTitle: 'Shoes' },
-        { id: '8', itemTitle: 'Shoes' },
 
-    ]
-    // const itemBg = ? colors.DARK_BLACK : colors.DEFAULT_WHITE;
+const DiscoverItemComponent = ({ selectedCategory, onCategorySelect }:any) => {
+  const [categories, setCategories] = useState([]);
+
+  const fetchCategories = async () => {
+    try {
+      const snapshot = await firestore().collection('categories').get();
+      const fetched = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCategories(fetched);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const renderItem = ({ item }:any) => {
+const isSelected = selectedCategory === item.name;
     return (
-        <ScrollView style={styles.scrollListContainer} horizontal showsHorizontalScrollIndicator={false}>
-            {data.map((items) => {
-                const isSelected = selectedId === items.id;
-                return (
-                    <TouchableOpacity
-                        key={items.id}
-                        onPress={() => setSelectedId(items.id)}
-                        style={[
-                            styles.item,
-                            { backgroundColor: isSelected ? colors.DARK_BLACK : colors.DEFAULT_WHITE },
-                        ]}
-                    >
-                        <Text
-                            style={[
-                                styles.itemTitle,
-                                { color: isSelected ? colors.DEFAULT_WHITE : colors.DARK_BLACK },
-                            ]}
-                        >
-                            {items.itemTitle}
-                        </Text>
-                    </TouchableOpacity>
-                );
-            })}
-        </ScrollView>
+      <TouchableOpacity
+        onPress={() => onCategorySelect(item.name)}
+        style={[
+          styles.item,
+          { backgroundColor: isSelected ? colors.DARK_BLACK : colors.DEFAULT_WHITE },
+        ]}
+      >
+        <Text
+          style={[
+            styles.itemTitle,
+            { color: isSelected ? colors.DEFAULT_WHITE : colors.DARK_BLACK },
+          ]}
+        >
+          {item.name}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
-    )
-}
+  return (
+    <FlatList
+      data={categories}
+      renderItem={renderItem}
+      keyExtractor={item => String(item.id)}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.scrollListContainer}
+    />
+  );
+};
 
-export default DiscoverItemComponent
+export default DiscoverItemComponent;

@@ -1,37 +1,53 @@
-import { View, FlatList, ImageBackground, Text, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import {FlatList, ImageBackground, Text, TouchableOpacity, Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import images from '../../utils/constants/Images'
 import styles from './ProductComponentStyle'
+import firestore from '@react-native-firebase/firestore'
+const ProductComponent = ({navigation,selectedCategory}:any) => {
+  const [products,setProducts] = useState([]);
+  const fetchedProducts = async () => {
+  try {
+    const snapshot = await firestore().collection('products').get();
+    const allProducts = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    if (selectedCategory && selectedCategory !== 'All') {
+      const filtered = allProducts.filter(
+        product => product.categoryType === selectedCategory
+      );
+      setProducts(filtered);
+    } else {
+      setProducts(allProducts);
+    }
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+};
+  useEffect(() => {
+    fetchedProducts();
+  }, [selectedCategory]);
 
-const ProductComponent = () => {
-   const data = [
-      { id: '1', title: 'Regular Fit Slogan',price:'$ 1,190'},
-      { id: '2', title: 'Regular Fit Polo',price:'$ 1,190' },
-      { id: '3', title: 'Regular Fit Black',price:'$ 1,190' },
-      { id: '4', title: 'Regular Fit V-Neck',price:'$ 1,190' },
-      { id: '5', title: 'Item 5',price:'$ 1,190' },
-      { id: '6', title: 'Item 6',price:'$ 1,190' },
-    ];
-  const renderItem = ({item}:any) => {
-    return (
-      <View style={styles.itemContainer}>
-        <ImageBackground source={images.PRODUCT_BG} style={styles.bgImage}>
-          <TouchableOpacity style={styles.rightBtnContainer}>
-            <Image source={images.LIKE_ICON} style={styles.iconSize}/>
+  const renderItem = ({ item }: any) => {
+    return ( 
+      <TouchableOpacity style={styles.itemContainer} onPress={navigation}>
+        <ImageBackground  source={{ uri: item.image }}  style={styles.bgImage}>
+          <TouchableOpacity style={styles.rightBtnContainer} >
+            <Image source={images.UNSAVED_ICON} style={styles.iconSize} />
           </TouchableOpacity>
-          </ImageBackground> 
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.subTitle}>{item.price}</Text>
-      </View>
+        </ImageBackground>
+        <Text style={styles.title}>{item.productName}</Text>
+        <Text style={styles.subTitle}>${item.price}</Text>
+      </TouchableOpacity>
     )
   }
   return (
     <FlatList
-      data={data}
+      data={products}
       renderItem={renderItem}
       keyExtractor={item => item.id}
       numColumns={2}
-      showsVerticalScrollIndicator={false} 
+      showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.contentContainer}
     />
   )

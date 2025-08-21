@@ -11,7 +11,8 @@ import { useFocusEffect } from '@react-navigation/native'
 
 
 GoogleSignin.configure({
-  webClientId: '118988325049-re15a4cveb93qofblbvs7nf2eimr95q1.apps.googleusercontent.com'})
+    webClientId: '118988325049-re15a4cveb93qofblbvs7nf2eimr95q1.apps.googleusercontent.com'
+})
 
 const SignUpScreen = ({ navigation }: any) => {
     const [name, setName] = useState('');
@@ -74,23 +75,23 @@ const SignUpScreen = ({ navigation }: any) => {
         }
     };
 
-useFocusEffect(
-  useCallback(() => {
-    console.log('Screen is focused');
-    
-    return () => {
-      setEmailError('');
-      setEmail('');
-      setPasswdError('');
-      setPassword('');
-      setName('');
-      setNameError('');
-      setNameValid(null);
-      setEmailValid(null);
-      setPasswdValid(null)
-    };
-  }, [])
-);
+    useFocusEffect(
+        useCallback(() => {
+            console.log('Screen is focused');
+
+            return () => {
+                setEmailError('');
+                setEmail('');
+                setPasswdError('');
+                setPassword('');
+                setName('');
+                setNameError('');
+                setNameValid(null);
+                setEmailValid(null);
+                setPasswdValid(null)
+            };
+        }, [])
+    );
 
 
 
@@ -115,28 +116,28 @@ useFocusEffect(
     };
 
 
-      useEffect(() => {
-      
-    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardVisible(true);
-    });
-    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardVisible(false);
-    });
+    useEffect(() => {
 
-    return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
-    };
-  }, []);
+        const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
+            setKeyboardVisible(true);
+        });
+        const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+            setKeyboardVisible(false);
+        });
+
+        return () => {
+            showSubscription.remove();
+            hideSubscription.remove();
+        };
+    }, []);
 
     return (
         <SafeAreaView style={GlobalStyles.container}>
             <StatusBar translucent={true} barStyle="dark-content" backgroundColor={colors.DEFAULT_WHITE} />
-            <KeyboardAwareScrollView 
-            scrollEnabled={isKeyboardVisible}
-      extraScrollHeight={20}
-      keyboardShouldPersistTaps="handled"
+            <KeyboardAwareScrollView
+                scrollEnabled={isKeyboardVisible}
+                extraScrollHeight={20}
+                keyboardShouldPersistTaps="handled"
             >
                 <View style={styles.innerContainer}>
                     <Text style={styles.title} >Create your Account</Text>
@@ -203,7 +204,7 @@ useFocusEffect(
                                 passwdError && GlobalStyles.errorInput,
                                 passwdValid && GlobalStyles.successInput
                             ]}>
-                                 <TextInput
+                                <TextInput
                                     value={password}
                                     onChangeText={(text) => {
                                         setPassword(text);
@@ -235,7 +236,7 @@ useFocusEffect(
                             )}
                         </TouchableOpacity>
                         <Image source={images.OR_BG} style={styles.bgImage} />
-                        <TouchableOpacity style={styles.socialLoginBtn} onPress={handleGoogleSignIn} >
+                        <TouchableOpacity style={styles.socialLoginBtn}  >
                             <Image source={images.GOOGLE_ICON} style={styles.iconSize} />
                             <Text style={styles.mediumTxt}>Sign Up with Google</Text>
                         </TouchableOpacity>

@@ -16,27 +16,29 @@ import DetailsScreen from '../screens/Details/DetailsScreen';
 import NotifySettingsScreen from '../screens/Notify/NotifySettingsScreen';
 import HelpScreen from '../screens/Help/HelpScreen';
 import HomeScreen from '../screens/Home/HomeScreen';
+import ProductDetailsScreen from '../screens/ProductDetails/ProductDetailsScreen';
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
     return (
-            <NavigationContainer>
-                <Stack.Navigator initialRouteName="Splash"  screenOptions={{ gestureEnabled: false}}>
-                    <Stack.Screen name="Splash" component={Splashscreen} options={{ headerShown: false }} />
-                     <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />
-                     <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-                    <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
-                    <Stack.Screen name="Forgot" component={ForgotPasswordScreen} options={{ headerShown: false }} />
-                    <Stack.Screen name="Reset" component={ResetPasswordScreen} options={{ headerShown: false }} />
-                    <Stack.Screen name="VerificationCode" component={VerificationCodeScreen} options={{ headerShown: false }} />
-                    <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }} />
-                    <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-                     <Stack.Screen name="Notification" component={NotificationScreen} options={{ headerShown: false }} />
-                    <Stack.Screen name="Order" component={OrderScreen} options={{ headerShown: false }} />
-                     <Stack.Screen name="Details" component={DetailsScreen} options={{ headerShown: false }} />
-                     <Stack.Screen name="NotifySettings" component={NotifySettingsScreen} options={{ headerShown: false }} />
-                     <Stack.Screen name="HelpCenter" component={HelpScreen} options={{ headerShown: false }} />
-                </Stack.Navigator>
-            </NavigationContainer>
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="Splash" screenOptions={{ gestureEnabled: false }}>
+                <Stack.Screen name="Splash" component={Splashscreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Forgot" component={ForgotPasswordScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Reset" component={ResetPasswordScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="VerificationCode" component={VerificationCodeScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }} />
+                <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Notification" component={NotificationScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Order" component={OrderScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="Details" component={DetailsScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="NotifySettings" component={NotifySettingsScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="HelpCenter" component={HelpScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{ headerShown: false }} />
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 };
 export default StackNavigator;
