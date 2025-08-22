@@ -3,4 +3,6 @@ export type RootStackParamList = {
   AddNote: { addNote: any };
   NotesDetail: undefined;
   NotesComponent:undefined;
+  ProductComponent:{productId:any};
+  ProductDetails:undefined
 };

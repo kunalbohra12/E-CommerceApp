@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react'
 import images from '../../utils/constants/Images'
 import styles from './ProductComponentStyle'
 import firestore from '@react-native-firebase/firestore'
-const ProductComponent = ({navigation,selectedCategory}:any) => {
+ import { useNavigation } from '@react-navigation/native'
+const ProductComponent = ({selectedCategory}:any) => {
   const [products,setProducts] = useState([]);
+  const navigation = useNavigation();
   const fetchedProducts = async () => {
   try {
     const snapshot = await firestore().collection('products').get();
@@ -28,9 +30,13 @@ const ProductComponent = ({navigation,selectedCategory}:any) => {
     fetchedProducts();
   }, [selectedCategory]);
 
+  const handleProduct = ({productId}:any) => {
+    navigation.navigate('ProductDetails',{productId})
+  }
+
   const renderItem = ({ item }: any) => {
     return ( 
-      <TouchableOpacity style={styles.itemContainer} onPress={navigation}>
+      <TouchableOpacity style={styles.itemContainer} onPress={() => handleProduct({productId:item.id})}>
         <ImageBackground  source={{ uri: item.image }}  style={styles.bgImage}>
           <TouchableOpacity style={styles.rightBtnContainer} >
             <Image source={images.UNSAVED_ICON} style={styles.iconSize} />
@@ -41,6 +47,7 @@ const ProductComponent = ({navigation,selectedCategory}:any) => {
       </TouchableOpacity>
     )
   }
+
   return (
     <FlatList
       data={products}

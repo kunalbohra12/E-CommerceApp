@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',
-    marginTop:32,
+    marginTop:20,
     paddingHorizontal:24,
   },
   headerTitle:{
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     marginTop:16,
      paddingHorizontal:24,
-
+    gap:8,
   },
   searchBar:{
     alignItems:'center',
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     borderRadius:8,
     paddingHorizontal:20,
     paddingVertical:8,
-    width:281,
+    width:'85%',
     borderWidth:2,
     borderColor:colors.BLUR_GREY,
     gap:8

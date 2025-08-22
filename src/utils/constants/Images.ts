@@ -41,6 +41,7 @@ const images = {
     UNSAVED_ICON:require('../../assets/images/unsaved_icon.png'),
     RATING_ICON:require('../../assets/images/rating_icon.png'),
     BOX_ICON:require('../../assets/images/box_icon.png'),
-
+    LOGOUT_IMAGE:require('../../assets/images/Logout.png'),
+    CALENDAR_ICON:require('../../assets/images/calendar_icon.png'),
 };
 export default images;

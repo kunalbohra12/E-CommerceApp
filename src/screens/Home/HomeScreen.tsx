@@ -32,7 +32,7 @@ const HomeScreen = ({ navigation }: any) => {
                 <View style={styles.listContainer}>
                     <DiscoverItemComponent selectedCategory={selectedCategory} onCategorySelect={setSelectedCategory}/>
                 </View>
-                <ProductComponent selectedCategory={selectedCategory} navigation={() => navigation.navigate('ProductDetails',{selectedCategory:selectedCategory})}/>
+                <ProductComponent selectedCategory={selectedCategory} />
             </View>
         </SafeAreaView>
     )

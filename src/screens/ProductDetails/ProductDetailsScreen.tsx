@@ -1,11 +1,31 @@
-import { View, SafeAreaView, StatusBar, ImageBackground, TouchableOpacity, Image, Text } from 'react-native'
-import React from 'react'
+import { View, SafeAreaView, StatusBar, ImageBackground, TouchableOpacity, Image, Text, ScrollView } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import Header from '../../Components/Header/HeaderComponent'
 import GlobalStyles from '../../utils/styles/GlobalStyles'
 import colors from '../../utils/constants/colors'
 import styles from './ProductDetailsStyle'
 import images from '../../utils/constants/Images'
-const ProductDetailsScreen = () => {
+import firestore from '@react-native-firebase/firestore'
+const ProductDetailsScreen = ({route}:any) => {
+    const { productId } = route?.params;
+    console.log(productId);
+    const [product,setProduct] = useState([]);
+ const fetchProductDetails = async () => {
+      try {
+        const productSnapshot = await firestore().collection('products').doc(productId).get();
+        if (productSnapshot.exists()) {
+          setProduct(productSnapshot.data());
+        } else {
+          console.log('Product not found!');
+        }
+      } catch (error) {
+        console.error('Error fetching product details:', error);
+      }
+    };
+  useEffect(() => {
+   fetchProductDetails();
+},[productId]);
+
     return (
         <SafeAreaView style={GlobalStyles.container}>
             <StatusBar barStyle="dark-content" backgroundColor={colors.DEFAULT_WHITE} />
@@ -13,6 +33,7 @@ const ProductDetailsScreen = () => {
                 <View style={styles.subContainer} >
                     <Header title={'Details'} />
                 </View>
+                <ScrollView>
                 <View style={styles.subContainer}>
                     <ImageBackground source={images.PRODUCT_BG} style={styles.bgImage}>
                         <TouchableOpacity style={styles.rightBtnContainer} >
@@ -42,14 +63,16 @@ const ProductDetailsScreen = () => {
                 <View style={styles.divider} />
                 <View style={styles.bottomContainer}>
                     <View>
-                        <Text style={styles.bottomTxt}>Price</Text>
-                        <Text style={styles.bottomSubTxt}>$ 1,190</Text>
+                        <Text style={styles.bottomTxt}>price</Text>
+                        <Text style={styles.bottomSubTxt}>$ 1,330</Text>
                     </View>
                     <TouchableOpacity style={styles.rightSubContainer}>
                         <Image source={images.BOX_ICON} style={styles.btnIcon} />
                         <Text style={styles.btnTxt}>Add to Cart</Text>
                     </TouchableOpacity>
                 </View>
+                </ScrollView>
+
             </View>
         </SafeAreaView>
     )

@@ -17,6 +17,7 @@ import NotifySettingsScreen from '../screens/Notify/NotifySettingsScreen';
 import HelpScreen from '../screens/Help/HelpScreen';
 import HomeScreen from '../screens/Home/HomeScreen';
 import ProductDetailsScreen from '../screens/ProductDetails/ProductDetailsScreen';
+import ProductComponent from '../Components/Product/ProductComponent';
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
     return (
@@ -37,6 +38,8 @@ const StackNavigator = () => {
                 <Stack.Screen name="NotifySettings" component={NotifySettingsScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="HelpCenter" component={HelpScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="ProductComponent" component={ProductComponent} />
+
             </Stack.Navigator>
         </NavigationContainer>
     );

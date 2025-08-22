@@ -19,7 +19,7 @@ const LogoutComponent = ({ isVisible, onClose, onLogout }: Props) => {
         >
             <Pressable style={styles.centeredContainer} onPress={onClose}>
                 <Pressable style={styles.modalContainer} onPress={() => { }}>
-                    <Image source={images.LOGOUT_ICON} style={styles.modalIcon} />
+                    <Image source={images.LOGOUT_IMAGE} style={styles.modalIcon} />
                     <Text style={styles.modalTxt}>Logout?</Text>
                     <Text style={styles.modalSubTxt}>Are you sure you want to logout?</Text>
 

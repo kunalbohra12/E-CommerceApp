@@ -6,17 +6,17 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.DEFAULT_WHITE,
         // paddingHorizontal: 24,
-        paddingTop: Platform.OS === 'ios' ? 0 : 25
+        paddingTop: Platform.OS === 'ios' ? 0 : 5
 
     },
     divider: {
-        height: 2,
+        height: 1,
         width: '100%',
         backgroundColor: colors.BLUR_WHITE
     },
     bgImage: {
         height: 341,
-        width: 348,
+        width: '100%',
         flexDirection: "row",
         justifyContent: 'flex-end',
         borderRadius: 10,
@@ -101,16 +101,16 @@ const styles = StyleSheet.create({
     },
     bottomContainer: {
         flexDirection: 'row',
-        marginTop: 20,
+        marginTop: 50,
         paddingHorizontal: 24,
-        justifyContent: 'space-between',
+        gap:33
     },
     rightSubContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        height: 54,
-        width: 240,
+        height: 50,
+        width: '70%',
         borderRadius: 10,
         backgroundColor: colors.DARK_BLACK,
         gap:10
